@@ -267,26 +267,16 @@ public class DbConnection {
     public void updateWord(Word currentWord) {
         try {
             int autoEngId = 0;
-            int tempIdSize = currentWord.getEngId().size() - 1;
-            int tempEngSize = currentWord.getEngWord().size() - 1;
-            int count = 0;
-            while (tempEngSize >= count) {
-                if (tempEngSize < tempIdSize) {
-                    int i = 1;
-                    int tmpCurrId = currentWord.getEngId().size() - i;
+            int tempIdSize = currentWord.getEngId().size();
+            int tempEngSize = currentWord.getEngWord().size();
+            for(int i = 0; i<tempIdSize;i++){
                     preparedStatement = conn.prepareStatement("DELETE FROM eng_word WHERE eng_id =?");
-                    preparedStatement.setInt(1, currentWord.getEngId().get(tmpCurrId));
+                    preparedStatement.setInt(1, currentWord.getEngId().get(i));
                     preparedStatement.executeUpdate();
-
-                    tmpCurrId--;
-                    tempIdSize--;
-                    i++;
-                }
-                if (tempEngSize > tempIdSize) {
-                    int i = 1;
-                    int tmpCurrId = currentWord.getEngWord().size() - i;
+            }
+            for(int j=0;j<tempEngSize;j++){
                     preparedStatement = conn.prepareStatement("INSERT INTO eng_word VALUES (default,?)", Statement.RETURN_GENERATED_KEYS);
-                    preparedStatement.setString(1, currentWord.getEngWord().get(tmpCurrId));
+                    preparedStatement.setString(1, currentWord.getEngWord().get(j));
                     preparedStatement.executeUpdate();
                     ResultSet rs = preparedStatement.getGeneratedKeys();
                     if (rs.next()) {
@@ -296,18 +286,6 @@ public class DbConnection {
                     preparedStatement.setInt(1, currentWord.getHunId());
                     preparedStatement.setInt(2, autoEngId);
                     preparedStatement.executeUpdate();
-                    tempEngSize--;
-                    i++;
-
-                }
-                if (tempEngSize == tempIdSize) {
-                    preparedStatement = conn.prepareStatement("UPDATE eng_word SET eng_id = ?, eng_word= ? WHERE eng_id=?");
-                    preparedStatement.setInt(1, currentWord.getEngId().get(count));
-                    preparedStatement.setString(2, currentWord.getEngWord().get(count));
-                    preparedStatement.setInt(3, currentWord.getEngId().get(count));
-                    preparedStatement.executeUpdate();
-                    count++;
-                }
             }
 
         } catch (SQLException ex) {

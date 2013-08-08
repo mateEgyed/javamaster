@@ -4,6 +4,9 @@
  */
 package Client;
 
+import DatabaseConnection.Word;
+import java.util.ArrayList;
+
 /**
  *
  * @author Mate
@@ -17,25 +20,34 @@ public class StatisticForm extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    
-    public void setStaticstics(int allQuestion, int allCorrect,int allWrong, double allRatio, 
-            int wordQuestion, int wordCorrect, int wordWrong, double wordRatio, 
-            int sessionQuestion, int sessionCorrect, int sessionWrong, double sessionRatio, String word){
-        lbAllQuestion.setText(allQuestion+"");
-        lbAllCorrect.setText(allCorrect+"");
-        lbAllWrong.setText(allWrong+"");
-        lbAllRatio.setText(allRatio+" %");
-        
-        lbWordQuestion.setText(wordQuestion+"");
-        lbWordCorrect.setText(wordCorrect+"");
-        lbWordWrong.setText(wordWrong+"");
-        lbWordRatio.setText(wordRatio+" %");
-        
-        lbSessionQuestion.setText(sessionQuestion+"");
-        lbSessionCorrect.setText(sessionCorrect+"");
-        lbSessionWrong.setText(sessionWrong+"");
-        lbSessionRatio.setText(sessionRatio+" %");
-        
+
+    public void setStaticstics(int allQuestion, int allCorrect, int allWrong, double allRatio,
+            int wordQuestion, int wordCorrect, int wordWrong, double wordRatio,
+            int sessionQuestion, int sessionCorrect, int sessionWrong, double sessionRatio, String word, String[] engWords) {
+        String labelEng = "";
+        lbAllQuestion.setText(allQuestion + "");
+        lbAllCorrect.setText(allCorrect + "");
+        lbAllWrong.setText(allWrong + "");
+        String aRatio = String.format("%1$.2f", allRatio);
+        lbAllRatio.setText(aRatio + " %");
+
+        for (int i = 0; i < engWords.length; i++) {
+            labelEng += engWords[i] + ",";
+
+        }
+        lbEngWords.setText(labelEng);
+        lbWordQuestion.setText(wordQuestion + "");
+        lbWordCorrect.setText(wordCorrect + "");
+        lbWordWrong.setText(wordWrong + "");
+        String wRatio = String.format("%1$.2f", wordRatio);
+        lbWordRatio.setText(wRatio+" %");
+
+        lbSessionQuestion.setText(sessionQuestion + "");
+        lbSessionCorrect.setText(sessionCorrect + "");
+        lbSessionWrong.setText(sessionWrong + "");
+        String sRatio = String.format("%1$.2f", sessionRatio);
+        lbSessionRatio.setText(sRatio + " %");
+
         lbHunWord.setText(word);
         tpnStat.setSelectedIndex(1);
     }
@@ -64,15 +76,23 @@ public class StatisticForm extends javax.swing.JDialog {
         jLabel20 = new javax.swing.JLabel();
         lbAllRatio = new javax.swing.JLabel();
         pnWordStat = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
         lbHunWord = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        lbEngWords = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
         lbWordQuestion = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel24 = new javax.swing.JLabel();
         lbWordCorrect = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel26 = new javax.swing.JLabel();
         lbWordWrong = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel28 = new javax.swing.JLabel();
         lbWordRatio = new javax.swing.JLabel();
         pnSessionStat = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -88,7 +108,7 @@ public class StatisticForm extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Statisztika");
-        setPreferredSize(new java.awt.Dimension(550, 300));
+        setPreferredSize(new java.awt.Dimension(600, 340));
 
         btOk.setText("OK");
         btOk.addActionListener(new java.awt.event.ActionListener() {
@@ -100,30 +120,34 @@ public class StatisticForm extends javax.swing.JDialog {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
-        pnAllStat.setLayout(new java.awt.GridLayout(5, 2, 5, 5));
+        pnAllStat.setLayout(new java.awt.GridLayout(5, 2, 10, 5));
 
         jLabel6.setText("A regisztráció óta");
         pnAllStat.add(jLabel6);
         pnAllStat.add(jLabel8);
 
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel12.setText("Megjelent szavak száma:");
         pnAllStat.add(jLabel12);
 
         lbAllQuestion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204)));
         pnAllStat.add(lbAllQuestion);
 
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel15.setText("Helyes válaszok száma:");
         pnAllStat.add(jLabel15);
 
         lbAllCorrect.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204)));
         pnAllStat.add(lbAllCorrect);
 
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel18.setText("Rossz válaszok száma:");
         pnAllStat.add(jLabel18);
 
         lbAllWrong.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204)));
         pnAllStat.add(lbAllWrong);
 
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel20.setText("Százalék:");
         pnAllStat.add(jLabel20);
 
@@ -132,64 +156,104 @@ public class StatisticForm extends javax.swing.JDialog {
 
         tpnStat.addTab("Összesített statisztika", pnAllStat);
 
-        pnWordStat.setLayout(new java.awt.GridLayout(5, 2, 5, 5));
+        pnWordStat.setLayout(new java.awt.GridLayout(6, 1, 5, 5));
 
-        jLabel1.setText("Az alábbi szó statisztikája:");
-        pnWordStat.add(jLabel1);
+        jPanel2.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
-        lbHunWord.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(102, 102, 102)));
-        pnWordStat.add(lbHunWord);
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel17.setText("Az alábbi szó statisztikája:");
+        jPanel2.add(jLabel17);
 
-        jLabel5.setText("Eddigi megjelenések száma:");
-        pnWordStat.add(jLabel5);
+        lbHunWord.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204)));
+        jPanel2.add(lbHunWord);
 
-        lbWordQuestion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(102, 102, 102)));
-        pnWordStat.add(lbWordQuestion);
+        pnWordStat.add(jPanel2);
 
-        jLabel4.setText("Helyes válaszok száma:");
-        pnWordStat.add(jLabel4);
+        jPanel3.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
-        lbWordCorrect.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(102, 102, 102)));
-        pnWordStat.add(lbWordCorrect);
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel19.setText("Helyes megoldás:");
+        jPanel3.add(jLabel19);
 
-        jLabel7.setText("Rossz válaszok száma:");
-        pnWordStat.add(jLabel7);
+        lbEngWords.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204)));
+        jPanel3.add(lbEngWords);
 
-        lbWordWrong.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(102, 102, 102)));
-        pnWordStat.add(lbWordWrong);
+        pnWordStat.add(jPanel3);
 
-        jLabel9.setText("Százalék:");
-        pnWordStat.add(jLabel9);
+        jPanel4.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
-        lbWordRatio.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(102, 102, 102)));
-        pnWordStat.add(lbWordRatio);
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel22.setText("Eddigi megjelenések száma:");
+        jPanel4.add(jLabel22);
+
+        lbWordQuestion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204)));
+        jPanel4.add(lbWordQuestion);
+
+        pnWordStat.add(jPanel4);
+
+        jPanel5.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
+
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel24.setText("Helyes válaszok száma:");
+        jPanel5.add(jLabel24);
+
+        lbWordCorrect.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204)));
+        jPanel5.add(lbWordCorrect);
+
+        pnWordStat.add(jPanel5);
+
+        jPanel6.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
+
+        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel26.setText("Rossz válaszok száma:");
+        jPanel6.add(jLabel26);
+
+        lbWordWrong.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204)));
+        jPanel6.add(lbWordWrong);
+
+        pnWordStat.add(jPanel6);
+
+        jPanel7.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
+
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel28.setText("Százalék:");
+        jPanel7.add(jLabel28);
+
+        lbWordRatio.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204)));
+        jPanel7.add(lbWordRatio);
+
+        pnWordStat.add(jPanel7);
 
         tpnStat.addTab("Aktuális szó statisztika", pnWordStat);
 
-        pnSessionStat.setLayout(new java.awt.GridLayout(5, 2, 5, 5));
+        pnSessionStat.setLayout(new java.awt.GridLayout(5, 2, 10, 5));
 
         jLabel2.setText("A bejelentkezés óta");
         pnSessionStat.add(jLabel2);
         pnSessionStat.add(jLabel3);
 
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel10.setText("Megjelent szavak száma:");
         pnSessionStat.add(jLabel10);
 
         lbSessionQuestion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204)));
         pnSessionStat.add(lbSessionQuestion);
 
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel11.setText("Helyes válaszok száma:");
         pnSessionStat.add(jLabel11);
 
         lbSessionCorrect.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204)));
         pnSessionStat.add(lbSessionCorrect);
 
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel13.setText("Rossz válaszok száma:");
         pnSessionStat.add(jLabel13);
 
         lbSessionWrong.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204)));
         pnSessionStat.add(lbSessionWrong);
 
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel14.setText("Százalék:");
         pnSessionStat.add(jLabel14);
 
@@ -206,31 +270,38 @@ public class StatisticForm extends javax.swing.JDialog {
     private void btOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOkActionPerformed
         dispose();
     }//GEN-LAST:event_btOkActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btOk;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JLabel lbAllCorrect;
     private javax.swing.JLabel lbAllQuestion;
     private javax.swing.JLabel lbAllRatio;
     private javax.swing.JLabel lbAllWrong;
+    private javax.swing.JLabel lbEngWords;
     private javax.swing.JLabel lbHunWord;
     private javax.swing.JLabel lbSessionCorrect;
     private javax.swing.JLabel lbSessionQuestion;

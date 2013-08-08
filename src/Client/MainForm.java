@@ -8,7 +8,9 @@ import DatabaseConnection.Word;
 import DatabaseConnection.DbConnection;
 import DatabaseConnection.Statistics;
 import DatabaseConnection.User;
+import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.util.Random;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -25,7 +27,11 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm() {
         initComponents();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation((screenSize.width-this.getWidth())/2, (screenSize.height-this.getHeight())/2);
+        enter.setLocationRelativeTo(this);
         enter.setVisible(true);
+        
     }
 
     /**
@@ -74,10 +80,21 @@ public class MainForm extends javax.swing.JFrame {
         pnResult.setPreferredSize(new java.awt.Dimension(188, 150));
         pnResult.setLayout(new java.awt.GridLayout(2, 2, 2, 2));
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("A helyes megoldás:");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         pnResult.add(jLabel1);
+
+        lbIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         pnResult.add(lbIcon);
+
+        lbAnswer.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
+        lbAnswer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbAnswer.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, null, new java.awt.Color(204, 204, 204), null, new java.awt.Color(102, 102, 102)));
         pnResult.add(lbAnswer);
+
+        lbRate.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
         pnResult.add(lbRate);
 
         getContentPane().add(pnResult, java.awt.BorderLayout.PAGE_END);
@@ -190,9 +207,11 @@ public class MainForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void miUserChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miUserChangeActionPerformed
-        enter = new EnterForm(this, true, dbConn);
-        enter.setLocationRelativeTo(this);
-        enter.setVisible(true);
+        if(currentUser != null){
+            enter = new EnterForm(this, true, dbConn, true);
+            enter.setLocationRelativeTo(this);
+            enter.setVisible(true);
+        }
     }//GEN-LAST:event_miUserChangeActionPerformed
 
     private void miExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miExitActionPerformed
@@ -285,7 +304,8 @@ public class MainForm extends javax.swing.JFrame {
                             sessionCorrectAnswer,
                             sessionWrongAnswer,
                             sessionRatio,
-                            w.getHunWord());
+                            w.getHunWord(),
+                            answerEng);
                     Point p = this.getLocation();
                     stat.setLocation(p);
                     stat.setVisible(true);
@@ -400,7 +420,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JTextField tfEngWord;
     // End of variables declaration//GEN-END:variables
     private DbConnection dbConn = new DbConnection();
-    private EnterForm enter = new EnterForm(this, true, dbConn);
+    private EnterForm enter = new EnterForm(this, true, dbConn,false);
     private StatisticForm stat = new StatisticForm(this, true);
     private WeightingRandom rand = new WeightingRandom();
     private WordForm word = new WordForm(this, true, dbConn);

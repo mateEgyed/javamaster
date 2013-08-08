@@ -19,9 +19,10 @@ public class EnterForm extends javax.swing.JDialog {
     /**
      * Creates new form EnterForm
      */
-    public EnterForm(java.awt.Frame parent, boolean modal, DbConnection dbConn) {
+    public EnterForm(java.awt.Frame parent, boolean modal, DbConnection dbConn, boolean isActiveUser) {
         super(parent, modal);
         this.dbConn = dbConn;
+        this.isActiveUser = isActiveUser;
         initComponents();
         setUsersList();
     }
@@ -43,8 +44,13 @@ public class EnterForm extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         ftfUser = new javax.swing.JFormattedTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Belépés");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         liUsers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -141,6 +147,24 @@ public class EnterForm extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btCancelActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        checkUser();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void checkUser() {
+        if (isActiveUser) {
+            dispose();
+        } else {
+            if (liUsers.isSelectionEmpty()) {
+                int dialogResult = JOptionPane.showConfirmDialog(this, "Biztos hogy kilépsz?",
+                        "Kilépés", JOptionPane.YES_NO_OPTION);
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        }
+    }
+
     private User getSelectUser() {
         Iterator<User> it = dbConn.getUsers();
         while (it.hasNext()) {
@@ -177,4 +201,5 @@ public class EnterForm extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
     private DbConnection dbConn;
     private User sessionUser;
+    private boolean isActiveUser;
 }
