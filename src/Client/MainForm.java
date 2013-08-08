@@ -11,6 +11,8 @@ import DatabaseConnection.User;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -28,10 +30,10 @@ public class MainForm extends javax.swing.JFrame {
     public MainForm() {
         initComponents();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation((screenSize.width-this.getWidth())/2, (screenSize.height-this.getHeight())/2);
+        this.setLocation((screenSize.width - this.getWidth()) / 2, (screenSize.height - this.getHeight()) / 2);
         enter.setLocationRelativeTo(this);
         enter.setVisible(true);
-        
+
     }
 
     /**
@@ -207,7 +209,7 @@ public class MainForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void miUserChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miUserChangeActionPerformed
-        if(currentUser != null){
+        if (currentUser != null) {
             enter = new EnterForm(this, true, dbConn, true);
             enter.setLocationRelativeTo(this);
             enter.setVisible(true);
@@ -245,8 +247,8 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_check
 
     private void btCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCheckActionPerformed
-        String tempEng = "";
         String labelEng = "";
+        ArrayList<String> answerEngList = new ArrayList();
         String[] answerEng = null;
         for (Word w : dbConn.getAllWords()) {
             if (tempWordId == w.getHunId()) {
@@ -256,12 +258,17 @@ public class MainForm extends javax.swing.JFrame {
         }
 
         boolean contains = false;
-        if (!(tempEng = tfEngWord.getText()).equals("")) {
-            for (int i = 0; i < answerEng.length; i++) {
-                if (answerEng[i].equals(tempEng)) {
+        if (!(tfEngWord.getText()).equals("")) {
+            String tempEng[] = tfEngWord.getText().split(",");
+            Collections.addAll(answerEngList, answerEng);
+            for (int i = 0; i < tempEng.length; i++) {
+                if (answerEngList.contains(tempEng[i])) {
                     contains = true;
+                } else {
+                    contains = false;
                 }
             }
+
             if (contains) {
                 lbRate.setText("Gratulálok eltaláltad");
                 currentUser.setCorrectAnswer();
@@ -420,7 +427,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JTextField tfEngWord;
     // End of variables declaration//GEN-END:variables
     private DbConnection dbConn = new DbConnection();
-    private EnterForm enter = new EnterForm(this, true, dbConn,false);
+    private EnterForm enter = new EnterForm(this, true, dbConn, false);
     private StatisticForm stat = new StatisticForm(this, true);
     private WeightingRandom rand = new WeightingRandom();
     private WordForm word = new WordForm(this, true, dbConn);
