@@ -287,6 +287,7 @@ public class MainForm extends javax.swing.JFrame {
             statistics.setQuestionCount();
             statistics.setRatio();
             sessionQuestionCount++;
+            sessionRatio = ((double)sessionCorrectAnswer/sessionQuestionCount)*100;
             btCheck.setEnabled(false);
             for (int i = 0; i < answerEng.length; i++) {
                 labelEng += answerEng[i] + ",";

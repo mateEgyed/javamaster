@@ -15,16 +15,12 @@ public class Word {
     private ArrayList<Integer> engId;
     private String hunWord;
     private ArrayList<String> engWord;
-   /* private double ratio;
-    private int questionCount;*/
 
     public Word(int hunId, ArrayList<Integer> engId, String hunWord, ArrayList<String> engWord) {
         this.hunId = hunId;
         this.engId = engId;
         this.hunWord = hunWord;
         this.engWord = engWord;
-        /*this.ratio = ratio;
-        this.questionCount = questionCount;*/
     }
 
     public int getHunId() {
@@ -65,22 +61,5 @@ public class Word {
     
     public void addEngId(int id){
         engId.add(engId.size(), id);
-    }
-
-   /* public double getRatio() {
-        return ratio;
-    }
-
-    public void setRatio(double ratio) {
-        this.ratio = ratio;
-    }
-
-    public int getQuestionCount() {
-        return questionCount;
-    }
-
-    public void setQuestionCount(int questionCount) {
-        this.questionCount = questionCount;
-    }*/
-    
+    }    
 }
